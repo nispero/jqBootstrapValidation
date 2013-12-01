@@ -57,13 +57,13 @@
           // Get all inputs
           var $allInputs = $form.find("input,textarea,select").not("[type=submit],[type=image]").filter(settings.options.filter);
           var $allControlGroups = $form.find(settings.options.classNames.group);
-          
+
           // Only trigger validation on the ones that actually _have_ validation
           var $inputsWithValidators = $allInputs.filter(function () {
             return $(this).triggerHandler("getValidatorCount.validation") > 0;
           });
           $inputsWithValidators.trigger("submit.validation");
-          
+
           // But all of them are out-of-focus now, because we're submitting.
           $allInputs.trigger("validationLostFocus.validation");
 
@@ -201,13 +201,13 @@
                 message = $this.data("validationNumberMessage");
               }
               $this.data("validationNumberMessage", message);
-              
+
               var step = settings.validatorTypes.number.step; // TODO: and this
               if ($this.data("validationNumberStep")) {
                   step = $this.data("validationNumberStep");
               }
               $this.data("validationNumberStep", step);
-              
+
               var decimal = settings.validatorTypes.number.decimal;
               if ($this.data("validationNumberDecimal")) {
                   decimal = $this.data("validationNumberDecimal");
@@ -271,11 +271,11 @@
 
           var validatorNamesToInspect = validatorNames;
           var newValidatorNamesToInspect = [];
-          
+
           var uppercaseEachValidatorName = function (i, el) {
             validatorNames[i] = formatValidatorName(el);
           };
-      
+
           var inspectValidators = function(i, el) {
             if ($this.data("validation" + el + "Shortcut") !== undefined) {
               // Are these custom validators?
@@ -316,9 +316,9 @@
           // =============================================================
           //                                       SET UP VALIDATOR ARRAYS
           // =============================================================
-          
-          /* We're gonna generate something like 
-           * 
+
+          /* We're gonna generate something like
+           *
            * {
            *   "regex": [
            *     { -- a validator object here --},
@@ -329,11 +329,11 @@
            *     { -- a validator object here --}
            *   ]
            * }
-           * 
+           *
            * with a few more entries.
-           * 
-           * Because we only add a few validators to each field, most of the 
-           * keys will be empty arrays with no validator objects in them, and 
+           *
+           * Because we only add a few validators to each field, most of the
+           * keys will be empty arrays with no validator objects in them, and
            * thats fine.
            */
 
@@ -359,7 +359,7 @@
                   if (hasOverrideMessage) {
                     initted.message = message;
                   }
-                  
+
                   validators[validatorType].push(
                     $.extend(
                       true,
@@ -423,7 +423,7 @@
             "original-contents",
             (
               $helpBlock.data("original-contents") ?
-                $helpBlock.data("original-contents") : 
+                $helpBlock.data("original-contents") :
                 $helpBlock.html()
             )
           );
@@ -474,8 +474,8 @@
                     value.length || // not an empty string
                     ( // am including empty values
                       (
-                        params && 
-                        params.includeEmpty 
+                        params &&
+                        params.includeEmpty
                       ) ||
                       !!settings.validatorTypes[validatorType].includeEmpty
                     ) ||
@@ -507,13 +507,13 @@
               return validators;
             }
           );
-            
+
           var numValidators = 0;
-          
+
           $.each(validators, function (i, el) {
             numValidators += el.length;
           });
-          
+
           $this.bind("getValidatorCount.validation", function () {
             return numValidators;
           });
@@ -546,13 +546,13 @@
               var value = getValue($this);
 
               var errorsFound = [];
-              
+
               if (params && !!params.submitting) {
                 $controlGroup.data("jqbvIsSubmitting", true);
               } else if (e.type !== "revalidate") {
                 $controlGroup.data("jqbvIsSubmitting", false);
               }
-              
+
               var formIsSubmitting = !!$controlGroup.data("jqbvIsSubmitting");
 
               $controlGroup.find("input,textarea,select").not('[type=submit]').each(function (i, el) {
@@ -580,7 +580,7 @@
                 // How many errors did we find?
                 if (settings.options.semanticallyStrict && errorsFound.length === 1) {
                   // Only one? Being strict? Just output it.
-                  $helpBlock.html(errorsFound[0] + 
+                  $helpBlock.html(errorsFound[0] +
                     ( settings.options.prependExistingHelpBlock ? $helpBlock.data("original-contents") : "" ));
                 } else {
                   // Multiple? Being sloppy? Glue them together into an UL.
@@ -615,7 +615,7 @@
               $controlGroup = $this.parents(defaults.options.classNames.group).first(),
               $helpBlock = $controlGroup.find(".help-block").first(),
               $form = $this.parents("form").first();
-      
+
             // remove our events
             $this.unbind('.validation'); // events are namespaced.
             $form.unbind(".validationSubmit");
@@ -727,10 +727,10 @@
                                     }
                                     rrjqbvValidator.lastFinished = true;
                                     rrjqbvThis.data(
-                                        "validation" + rrjqbvValidator.validatorName + "Message", 
+                                        "validation" + rrjqbvValidator.validatorName + "Message",
                                         rrjqbvValidator.message
                                     );
-                                    
+
                                     // Timeout is set to avoid problems with the events being considered 'already fired'
                                     setTimeout(function() {
                                         if (!$this.is(":focus") && $this.parents("form").first().data("jqbvIsSubmitting")) {
@@ -813,19 +813,19 @@
           if (regexString === undefined) {
             $.error("Can't find regex for '" + name + "' validator on '" + $this.attr("name") + "'");
           }
-          
+
           var message = "Not in the expected format";
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
-        
+
           result.message = message;
-        
+
           result.originalName = name;
 					return result;
 				},
 				validate: function ($this, value, validator) {
-					return (!validator.regex.test(value) && ! validator.negative) || 
+					return (!validator.regex.test(value) && ! validator.negative) ||
 						(validator.regex.test(value) && validator.negative);
 				}
 			},
@@ -834,19 +834,19 @@
 				init: function ($this, name) {
           var result = {};
           result.regex = regexFromString('[a-zA-Z0-9.!#$%&\u2019*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}');
-          
+
           var message = "Not a valid email address";
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
-        
+
           result.message = message;
-        
+
           result.originalName = name;
 					return result;
 				},
 				validate: function ($this, value, validator) {
-					return (!validator.regex.test(value) && ! validator.negative) || 
+					return (!validator.regex.test(value) && ! validator.negative) ||
 						(validator.regex.test(value) && validator.negative);
 				}
 			},
@@ -857,7 +857,7 @@
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
-          
+
 					return {message: message, includeEmpty: true};
 				},
 				validate: function ($this, value, validator) {
@@ -879,11 +879,11 @@
 					});
           var result = {};
           result.element = $element;
-          
+
           if ($element.length === 0) {
             $.error("Can't find field '" + elementName + "' to match '" + $this.attr("name") + "' against in '" + name + "' validator");
           }
-        
+
           var message = "Must match";
           var $label = null;
           if (($label = $form.find("label[for=\"" + elementName + "\"]")).length) {
@@ -891,17 +891,17 @@
           } else if (($label = $element.parents(defaults.options.classNames.group).first().find("label")).length) {
             message += " '" + $label.first().text() + "'";
           }
-        
+
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
-        
+
           result.message = message;
-        
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
-					return (value !== validator.element.val() && ! validator.negative) || 
+					return (value !== validator.element.val() && ! validator.negative) ||
 						(value === validator.element.val() && validator.negative);
 				},
         blockSubmit: true,
@@ -911,14 +911,14 @@
 				name: "max",
 				init: function ($this, name) {
           var result = {};
-          
+
           result.max = $this.data("validation" + name + "Max");
-          
+
           result.message = "Too high: Maximum of '" + result.max + "'";
           if ($this.data("validation" + name + "Message")) {
             result.message = $this.data("validation" + name + "Message");
           }
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -930,14 +930,14 @@
 				name: "min",
 				init: function ($this, name) {
 					var result = {};
-          
+
           result.min = $this.data("validation" + name + "Min");
-          
+
           result.message = "Too low: Minimum of '" + result.min + "'";
           if ($this.data("validation" + name + "Message")) {
             result.message = $this.data("validation" + name + "Message");
           }
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -949,14 +949,14 @@
 				name: "maxlength",
 				init: function ($this, name) {
           var result = {};
-          
+
           result.maxlength = $this.data("validation" + name + "Maxlength");
-          
+
           result.message = "Too long: Maximum of '" + result.maxlength + "' characters";
           if ($this.data("validation" + name + "Message")) {
             result.message = $this.data("validation" + name + "Message");
           }
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -968,14 +968,14 @@
 				name: "minlength",
 				init: function ($this, name) {
 					var result = {};
-          
+
           result.minlength = $this.data("validation" + name + "Minlength");
-          
+
           result.message = "Too short: Minimum of '" + result.minlength + "' characters";
           if ($this.data("validation" + name + "Message")) {
             result.message = $this.data("validation" + name + "Message");
           }
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -987,21 +987,21 @@
 				name: "maxchecked",
 				init: function ($this, name) {
           var result = {};
-          
+
 					var elements = $this.parents("form").first().find("[name=\"" + $this.attr("name") + "\"]");
 					elements.bind("change.validation click.validation", function () {
 						$this.trigger("revalidate.validation", {includeEmpty: true});
 					});
-          
+
           result.elements = elements;
           result.maxchecked = $this.data("validation" + name + "Maxchecked");
-          
+
           var message = "Too many: Max '" + result.maxchecked + "' checked";
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
           result.message = message;
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -1014,21 +1014,21 @@
 				name: "minchecked",
 				init: function ($this, name) {
           var result = {};
-          
+
 					var elements = $this.parents("form").first().find("[name=\"" + $this.attr("name") + "\"]");
 					elements.bind("change.validation click.validation", function () {
 						$this.trigger("revalidate.validation", {includeEmpty: true});
 					});
-          
+
           result.elements = elements;
           result.minchecked = $this.data("validation" + name + "Minchecked");
-          
+
           var message = "Too few: Min '" + result.minchecked + "' checked";
           if ($this.data("validation" + name + "Message")) {
             message = $this.data("validation" + name + "Message");
           }
           result.message = message;
-          
+
 					return result;
 				},
 				validate: function ($this, value, validator) {
@@ -1049,25 +1049,25 @@
           if ($this.data("validation" + name + "Step")) {
             result.step = $this.data("validation" + name + "Step");
           }
-        
+
           result.decimal = ".";
           if ($this.data("validation" + name + "Decimal")) {
             result.decimal = $this.data("validation" + name + "Decimal");
           }
-        
+
           result.thousands = "";
           if ($this.data("validation" + name + "Thousands")) {
             result.thousands = $this.data("validation" + name + "Thousands");
           }
-        
+
           result.regex = regexFromString("([+-]?\\d+(\\" + result.decimal + "\\d+)?)?");
-          
+
           result.message = "Must be a number";
           var dataMessage = $this.data("validation" + name + "Message");
           if (dataMessage) {
             result.message = dataMessage;
           }
-                  
+
           return result;
         },
         validate: function ($this, value, validator) {
