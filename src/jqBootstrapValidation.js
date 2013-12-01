@@ -1206,31 +1206,34 @@
    *
    * http://stackoverflow.com/a/4351575
   **/
-function executeFunctionByName(functionName, context /*, args */) {
-    var args = Array.prototype.slice.call(arguments, 2);
-    var namespaces = functionName.split(".");
-    var func = namespaces.pop();
-    for (var i = 0; i < namespaces.length; i++) {
-        context = context[namespaces[i]];
-    }
-    return context[func].apply(context, args);
-}
+  function executeFunctionByName(functionName, context /*, args */) {
+      var args = Array.prototype.slice.call(arguments, 2);
+      var namespaces = functionName.split(".");
+      var func = namespaces.pop();
+      for (var i = 0; i < namespaces.length; i++) {
+          context = context[namespaces[i]];
+      }
+      return context[func].apply(context, args);
+  }
 
-$.fn.jqBootstrapValidation = function( method ) {
+  $.fn.jqBootstrapValidation = function( method ) {
 
-	if ( defaults.methods[method] ) {
-		return defaults.methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-	} else if ( typeof method === 'object' || ! method ) {
-		return defaults.methods.init.apply( this, arguments );
-	} else {
-	$.error( 'Method ' +  method + ' does not exist on jQuery.jqBootstrapValidation' );
-		return null;
-	}
+  	if ( defaults.methods[method] ) {
+  		return defaults.methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+  	} else if ( typeof method === 'object' || ! method ) {
+  		return defaults.methods.init.apply( this, arguments );
+  	} else {
+  	$.error( 'Method ' +  method + ' does not exist on jQuery.jqBootstrapValidation' );
+  		return null;
+  	}
 
-};
+  };
 
-  $.jqBootstrapValidation = function (options) {
+  var exports = $.jqBootstrapValidation = function (options) {
     $(":input").not("[type=image],[type=submit]").jqBootstrapValidation.apply(this,arguments);
   };
+
+  exports.bootstrap3Classes = bootstrap3Classes;
+  exports.bootstrap2Classes = bootstrap2Classes;
 
 })( jQuery );
